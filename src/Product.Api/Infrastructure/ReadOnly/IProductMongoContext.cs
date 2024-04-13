@@ -1,7 +1,7 @@
 ﻿using Product.Api.Domain.Entities;
 
 
-namespace Product.Api.Infrastructure;
+namespace Product.Api.Infrastructure.ReadOnly;
 
 public interface IProductMongoContext
 {

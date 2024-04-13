@@ -2,7 +2,7 @@
 using Product.Api.Domain.Entities;
 using Product.Api.Domain.Responses;
 
-namespace Product.Api.Infrastructure;
+namespace Product.Api.Infrastructure.ReadOnly;
 
 public class ProductMongoContext : IProductMongoContext
 {

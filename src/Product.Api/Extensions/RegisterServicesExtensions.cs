@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Product.Api.Infrastructure;
+using Product.Api.Infrastructure.ReadOnly;
 
 namespace Product.Api.Extensions
 {
