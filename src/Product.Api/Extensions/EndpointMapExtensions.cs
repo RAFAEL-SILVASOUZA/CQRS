@@ -4,6 +4,7 @@ using Product.Api.Domain.Command;
 using Product.Api.Domain.Notifications;
 using Product.Api.Domain.Queries;
 using Product.Api.Domain.Responses;
+using Product.Api.Filters;
 
 namespace Product.Api.Extensions;
 
@@ -11,13 +12,13 @@ public static class EndpointMapExtensions
 {
     public static RouteGroupBuilder MapProductApi(this RouteGroupBuilder group)
     {
-        group.MapPost("", async ([FromServices] IMediator mediat, 
-            [FromServices] IDomainNotificationContext domainNotificationContext, 
+        group.MapPost("", async ([FromServices] IMediator mediat,
+            [FromServices] IDomainNotificationContext domainNotificationContext,
             [FromBody] ProductCreateCommand productCreateCommand) =>
         {
             var p = await mediat.Send(productCreateCommand);
 
-            if(domainNotificationContext.HasErrorNotifications)
+            if (domainNotificationContext.HasErrorNotifications)
                 return domainNotificationContext.GetErrorNotifications();
 
             return Results.Ok(p);
@@ -43,8 +44,11 @@ public static class EndpointMapExtensions
 
         group.MapDelete("/{id}", async ([FromServices] IMediator mediat,
             [FromServices] IDomainNotificationContext domainNotificationContext,
-            [FromRoute] Guid id) =>
+            [FromRoute(Name = "Id")] Guid id) =>
         {
+            if (domainNotificationContext.HasErrorNotifications)
+                return domainNotificationContext.GetErrorNotifications();
+
             await mediat.Send(new ProductDeleteCommand(id));
 
             if (domainNotificationContext.HasErrorNotifications)
@@ -53,6 +57,7 @@ public static class EndpointMapExtensions
             return Results.NoContent();
         })
         .WithName("Delete Product")
+        .AddEndpointFilter<ProductDeleteEndpointFilter>()
         .WithOpenApi();
 
 
