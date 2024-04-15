@@ -13,7 +13,7 @@ namespace Product.Api.Domain.CommandHandlers;
 public class ProductUpdateCommandHandler(IDomainNotificationContext domainNotificationContext,
                                          ProductDbContext productDbContext, 
                                          IMediator mediator)
-    : IRequestHandler<ProductUpdateCommand, ProductUpdatedResponse>
+    : IRequestHandler<ProductUpdateCommand, ProductUpdatedResponse?>
 {
     public async Task<ProductUpdatedResponse?> Handle(ProductUpdateCommand request, CancellationToken cancellationToken)
     {
@@ -27,9 +27,16 @@ public class ProductUpdateCommandHandler(IDomainNotificationContext domainNotifi
 
         product = request.ChangeProduct(product);
 
-        productDbContext.Update(product);
-        await productDbContext.SaveChangesAsync(cancellationToken);
-        await mediator.Publish(new ProductUpdatedEvent(request.Id,product.ToBsonProduct()), cancellationToken);
+        try
+        {
+            productDbContext.Update(product);
+            await productDbContext.SaveChangesAsync(cancellationToken);
+            await mediator.Publish(new ProductUpdatedEvent(request.Id, product.ToBsonProduct()), cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            domainNotificationContext.NotifyException(ex.Message);
+        }
 
         return product.ToProductUpdatedResponse();
     }

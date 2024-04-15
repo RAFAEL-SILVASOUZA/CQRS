@@ -24,7 +24,7 @@ using (var serviceScope = app.Services.CreateScope())
 
 app.UseHttpsRedirection();
 
-app.MapGroup("/")
+app.MapGroup("product")
     .MapProductApi();
 
 app.Run();

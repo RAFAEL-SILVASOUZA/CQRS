@@ -22,9 +22,16 @@ public class ProductDeleteComandHandler(IDomainNotificationContext domainNotific
             return Unit.Value;
         }
 
-        productDbContext.Products.Remove(product);
-        await productDbContext.SaveChangesAsync(cancellationToken);
-        await mediator.Publish(new ProductDeletedEvent(request.Id), cancellationToken);
+        try
+        {
+            productDbContext.Products.Remove(product);
+            await productDbContext.SaveChangesAsync(cancellationToken);
+            await mediator.Publish(new ProductDeletedEvent(request.Id), cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            domainNotificationContext.NotifyException(ex.Message);
+        }
 
         return Unit.Value;
     }
