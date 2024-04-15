@@ -1,6 +1,6 @@
 ﻿namespace Product.Api.Domain.Responses;
 
-public record ProductQueryResponse(Guid Id, string Description, double Price);
+public record ProductQueryResponse(Guid Id, string Description, double Price) : IResponse;
 
 
 public static class ProductQueryResponseFactoryExtension

@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Product.Api.Domain.Command;
+using Product.Api.Domain.Notifications;
 using Product.Api.Domain.Queries;
 using Product.Api.Domain.Responses;
 
@@ -10,34 +11,52 @@ namespace Product.Api.Extensions
     {
         public static RouteGroupBuilder MapProductApi(this RouteGroupBuilder group)
         {
-            group.MapPost("/create", async ([FromServices] IMediator mediat, [FromBody] ProductCreateCommand productCreateCommand) =>
+            group.MapPost("", async ([FromServices] IMediator mediat, 
+                [FromServices] IDomainNotificationContext domainNotificationContext, 
+                [FromBody] ProductCreateCommand productCreateCommand) =>
             {
                 var p = await mediat.Send(productCreateCommand);
+
+                if(domainNotificationContext.HasErrorNotifications)
+                    return domainNotificationContext.GetErrorNotifications();
+
                 return Results.Ok(p);
             })
             .WithName("Create Product")
             .Produces<ProductCreatedResponse>()
             .WithOpenApi();
 
-            group.MapPut("/update/{Id}", async ([FromServices] IMediator mediat, [FromBody] ProductUpdateCommand productUpdateCommand) =>
+            group.MapPut("", async ([FromServices] IMediator mediat,
+                [FromServices] IDomainNotificationContext domainNotificationContext,
+                [FromBody] ProductUpdateCommand productUpdateCommand) =>
             {
                 var p = await mediat.Send(productUpdateCommand);
+
+                if (domainNotificationContext.HasErrorNotifications)
+                    return domainNotificationContext.GetErrorNotifications();
+
                 return Results.Ok(p);
             })
             .WithName("Update Product")
             .Produces<ProductUpdatedResponse>()
             .WithOpenApi();
 
-            group.MapDelete("/delete/{id}", async ([FromServices] IMediator mediat, [FromRoute] Guid id) =>
+            group.MapDelete("/{id}", async ([FromServices] IMediator mediat,
+                [FromServices] IDomainNotificationContext domainNotificationContext,
+                [FromRoute] Guid id) =>
             {
                 await mediat.Send(new ProductDeleteCommand(id));
+
+                if (domainNotificationContext.HasErrorNotifications)
+                    return domainNotificationContext.GetErrorNotifications();
+
                 return Results.NoContent();
             })
             .WithName("Delete Product")
             .WithOpenApi();
 
 
-            group.MapGet("/all", async ([FromServices] IMediator mediat) =>
+            group.MapGet("", async ([FromServices] IMediator mediat) =>
             {
                 var product = await mediat.Send(new ProductsQuery());
                 return Results.Ok(product);
@@ -55,9 +74,9 @@ namespace Product.Api.Extensions
             .Produces<ProductQueryResponse>()
             .WithOpenApi();
 
-            group.MapGet("/filter", async ([FromServices] IMediator mediat, [FromQuery] string description) =>
+            group.MapGet("/filter", async ([FromServices] IMediator mediat, [FromQuery] string filter) =>
             {
-                var products = await mediat.Send(new ProductsByDescriptionQuery(description));
+                var products = await mediat.Send(new ProductsByDescriptionQuery(filter));
                 return Results.Ok(products);
             })
             .WithName("Get Product By Description")

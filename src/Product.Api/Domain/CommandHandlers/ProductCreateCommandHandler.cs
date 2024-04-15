@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Product.Api.Domain.Command;
+using Product.Api.Domain.Commands.CommandExtensions;
 using Product.Api.Domain.Entities;
 using Product.Api.Domain.Events;
 using Product.Api.Domain.Responses;

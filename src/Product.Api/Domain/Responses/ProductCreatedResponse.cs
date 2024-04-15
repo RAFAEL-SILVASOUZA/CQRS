@@ -1,6 +1,6 @@
 ﻿namespace Product.Api.Domain.Responses;
 
-public sealed record ProductCreatedResponse(Guid Id, string Description, double Price);
+public sealed record ProductCreatedResponse(Guid Id, string Description, double Price) : IResponse;
 
 public static class ProductCreatedResponseFactoryExtension
 {
