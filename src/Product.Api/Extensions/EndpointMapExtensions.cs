@@ -1,10 +1,11 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Product.Api.Domain.Command;
+using Product.Api.Domain.Commands.Validators;
 using Product.Api.Domain.Notifications;
 using Product.Api.Domain.Queries;
 using Product.Api.Domain.Responses;
-using Product.Api.Filters;
+using Product.Api.Infrastructure.Data;
 
 namespace Product.Api.Extensions;
 
@@ -43,9 +44,14 @@ public static class EndpointMapExtensions
         .WithOpenApi();
 
         group.MapDelete("/{id}", async ([FromServices] IMediator mediat,
+            [FromServices] ProductDbContext productDbContext,
             [FromServices] IDomainNotificationContext domainNotificationContext,
             [FromRoute(Name = "Id")] Guid id) =>
         {
+            var command = new ProductDeleteCommand(id);
+            var validator = new ProductDeleteCommandValidatior(productDbContext, domainNotificationContext);
+            _ = await validator.ValidateAsync(command);
+
             if (domainNotificationContext.HasErrorNotifications)
                 return domainNotificationContext.GetErrorNotifications();
 
@@ -57,7 +63,6 @@ public static class EndpointMapExtensions
             return Results.NoContent();
         })
         .WithName("Delete Product")
-        .AddEndpointFilter<ProductDeleteEndpointFilter>()
         .WithOpenApi();
 
 
