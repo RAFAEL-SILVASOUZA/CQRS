@@ -4,7 +4,7 @@ using Product.Api.Domain.Commands.CommandExtensions;
 using Product.Api.Domain.Entities;
 using Product.Api.Domain.Events;
 using Product.Api.Domain.Responses;
-using Product.Api.Infrastructure;
+using Product.Api.Infrastructure.Data;
 
 namespace Product.Api.Domain.CommandHandlers;
 

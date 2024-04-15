@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Product.Api.Domain.Queries;
 using Product.Api.Domain.Responses;
-using Product.Api.Infrastructure.ReadOnly;
+using Product.Api.Infrastructure.Data.ReadOnly;
 
 namespace Product.Api.Domain.QueryHandlers;
 

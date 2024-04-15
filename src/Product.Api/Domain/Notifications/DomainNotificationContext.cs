@@ -1,6 +1,4 @@
-﻿using Amazon.Runtime.Internal;
-
-namespace Product.Api.Domain.Notifications;
+﻿namespace Product.Api.Domain.Notifications;
 
 public class DomainNotificationContext : IDomainNotificationContext
 {

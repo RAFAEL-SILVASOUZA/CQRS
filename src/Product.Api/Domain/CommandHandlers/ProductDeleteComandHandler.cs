@@ -3,7 +3,7 @@ using Product.Api.Domain.Command;
 using Product.Api.Domain.Constants;
 using Product.Api.Domain.Events;
 using Product.Api.Domain.Notifications;
-using Product.Api.Infrastructure;
+using Product.Api.Infrastructure.Data;
 
 namespace Product.Api.Domain.CommandHandlers;
 

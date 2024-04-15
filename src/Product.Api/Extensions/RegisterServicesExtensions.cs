@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Product.Api.Behavior;
 using Product.Api.Domain.Notifications;
-using Product.Api.Infrastructure;
-using Product.Api.Infrastructure.ReadOnly;
+using Product.Api.Infrastructure.Behavior;
+using Product.Api.Infrastructure.Data;
+using Product.Api.Infrastructure.Data.ReadOnly;
 
 namespace Product.Api.Extensions
 {

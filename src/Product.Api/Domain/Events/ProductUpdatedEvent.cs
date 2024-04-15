@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Product.Api.Domain.Entities;
-using Product.Api.Domain.Responses;
 
 namespace Product.Api.Domain.Events;
 

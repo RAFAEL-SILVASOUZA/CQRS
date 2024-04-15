@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Product.Api.Extensions;
-using Product.Api.Infrastructure;
+using Product.Api.Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();

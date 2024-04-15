@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProductModel = Product.Api.Domain.Entities.Product;
 
-namespace Product.Api.Infrastructure
+namespace Product.Api.Infrastructure.Data
 {
     public class ProductDbContext : DbContext
     {

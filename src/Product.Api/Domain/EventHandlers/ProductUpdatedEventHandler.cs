@@ -3,7 +3,7 @@ using MediatR;
 using Product.Api.Domain.Constants;
 using Product.Api.Domain.Entities;
 using Product.Api.Domain.Events;
-using Product.Api.Infrastructure.ReadOnly;
+using Product.Api.Infrastructure.Data.ReadOnly;
 
 namespace Product.Api.Domain.EventHandlers;
 

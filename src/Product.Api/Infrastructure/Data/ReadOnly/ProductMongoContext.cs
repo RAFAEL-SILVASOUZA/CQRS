@@ -1,8 +1,7 @@
 ﻿using MongoDB.Driver;
 using Product.Api.Domain.Entities;
-using Product.Api.Domain.Responses;
 
-namespace Product.Api.Infrastructure.ReadOnly;
+namespace Product.Api.Infrastructure.Data.ReadOnly;
 
 public class ProductMongoContext : IProductMongoContext
 {

@@ -4,7 +4,7 @@ using MediatR;
 using Product.Api.Domain.Notifications;
 using Product.Api.Domain.Responses;
 
-namespace Product.Api.Behavior;
+namespace Product.Api.Infrastructure.Behavior;
 
 public class ValidationRequestBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse?>
     where TRequest : IRequest<IResponse>
