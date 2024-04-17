@@ -11,6 +11,7 @@ namespace Product.Api.Domain.CommandHandlers;
 
 public class ProductUpdateCommandHandler(IDomainNotificationContext domainNotificationContext,
                                          ProductDbContext productDbContext,
+                                         ILogger<ProductUpdateCommandHandler> logger,
                                          IMediator mediator)
     : IRequestHandler<ProductUpdateCommand, ProductUpdatedResponse?>
 {
@@ -24,9 +25,11 @@ public class ProductUpdateCommandHandler(IDomainNotificationContext domainNotifi
             productDbContext.Update(product);
             await productDbContext.SaveChangesAsync(cancellationToken);
             await mediator.Publish(new ProductUpdatedEvent(request.Id, product.ToBsonProduct()), cancellationToken);
+            logger.LogInformation("Product updated.");
         }
         catch (Exception ex)
         {
+            logger.LogError(ex, "Error on update product");
             domainNotificationContext.NotifyException(ex.Message);
         }
 

@@ -10,6 +10,10 @@
 *.userosscache
 *.sln.docstates
 
+mongo_data/*
+graylog_journal/*
+es_data/*
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 

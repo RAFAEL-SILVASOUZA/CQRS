@@ -8,6 +8,7 @@ namespace Product.Api.Domain.CommandHandlers;
 
 public class ProductDeleteComandHandler(IDomainNotificationContext domainNotificationContext,
                                         ProductDbContext productDbContext,
+                                        ILogger<ProductDeleteComandHandler> logger,
                                         IMediator mediator)
     : IRequestHandler<ProductDeleteCommand, Unit>
 {
@@ -20,9 +21,11 @@ public class ProductDeleteComandHandler(IDomainNotificationContext domainNotific
             productDbContext.Products.Remove(product);
             await productDbContext.SaveChangesAsync(cancellationToken);
             await mediator.Publish(new ProductDeletedEvent(request.Id), cancellationToken);
+            logger.LogInformation("Product removed.");
         }
         catch (Exception ex)
         {
+            logger.LogError(ex, "Error on remove product");
             domainNotificationContext.NotifyException(ex.Message);
         }
 

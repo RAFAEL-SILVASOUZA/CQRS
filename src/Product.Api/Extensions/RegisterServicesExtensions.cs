@@ -1,10 +1,15 @@
 ﻿using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Product.Api.Domain.Notifications;
 using Product.Api.Infrastructure.Behavior;
 using Product.Api.Infrastructure.Data;
 using Product.Api.Infrastructure.Data.ReadOnly;
+using Serilog;
+using Serilog.Sinks.Graylog;
+using Serilog.Sinks.Graylog.Core.Transport;
+using Serilog.Sinks.GraylogGelf;
 
 namespace Product.Api.Extensions;
 
@@ -18,7 +23,7 @@ public static class RegisterServicesExtensions
         .UseNpgsql(builder.Configuration.GetConnectionString("ProductSqlConnection"), opts => opts
         .MigrationsAssembly(assembly.GetName().Name)
         .EnableRetryOnFailure()));
-       
+
         builder.Services.AddScoped<IProductMongoContext, ProductMongoContext>();
         builder.Services.AddMediatR(_ => _.RegisterServicesFromAssembly(assembly));
 
@@ -43,6 +48,18 @@ public static class RegisterServicesExtensions
             x.UseDashboard();
         });
 
+
+        builder.ConfigureSerilogLogger();
+
         return builder;
+    }
+
+    private static void ConfigureSerilogLogger(this WebApplicationBuilder builder)
+    {
+        var loggerConfig  = new LoggerConfiguration()
+                                 .ReadFrom.Configuration(builder.Configuration).CreateLogger();
+
+        builder.Logging.ClearProviders();
+        builder.Logging.AddSerilog(loggerConfig);
     }
 }
