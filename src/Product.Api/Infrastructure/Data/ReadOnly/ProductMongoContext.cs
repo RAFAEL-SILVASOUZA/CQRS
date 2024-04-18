@@ -21,6 +21,9 @@ public class ProductMongoContext : IProductMongoContext
     public async Task<BsonProduct?> GetAsync(Guid id) =>
         await _productsCollection.Find(x => x.Id == id.ToString()).FirstOrDefaultAsync();
 
+    public BsonProduct? Get(Guid id) =>
+        _productsCollection.Find(x => x.Id == id.ToString()).FirstOrDefault();
+
     public async Task<List<BsonProduct>> GetAsync(string description) =>
         await _productsCollection.Find(x => x.Description.ToUpper().Contains(description.ToUpper())).ToListAsync();
 

@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Microsoft.Extensions.Logging;
 using Product.Api.Domain.Command;
 using Product.Api.Domain.Commands.CommandExtensions;
 using Product.Api.Domain.Entities;
@@ -25,7 +24,7 @@ public sealed class ProductCreateCommandHandler(IDomainNotificationContext domai
             await productDbContext.Products.AddAsync(product);
             await productDbContext.SaveChangesAsync(cancellationToken);
             await mediator.Publish(new ProductCreatedEvent(product.ToBsonProduct()), cancellationToken);
-            logger.LogInformation("Product created.");
+            logger.LogInformation("macaxera");
         }
         catch (Exception ex)
         {

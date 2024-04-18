@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Product.Api.Extensions;
 using Product.Api.Infrastructure.Data;
 
@@ -22,9 +23,8 @@ using (var serviceScope = app.Services.CreateScope())
         context.Database.Migrate();
 }
 
-app.UseHttpsRedirection();
-
 app.MapGroup("product")
-    .MapProductApi();
+        .MapProductApi();
 
+app.UseHttpsRedirection();
 app.Run();

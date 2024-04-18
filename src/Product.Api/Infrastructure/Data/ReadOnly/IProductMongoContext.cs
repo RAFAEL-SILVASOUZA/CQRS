@@ -7,6 +7,7 @@ public interface IProductMongoContext
 {
     Task<List<BsonProduct>> GetAsync();
     Task<BsonProduct?> GetAsync(Guid id);
+    BsonProduct? Get(Guid id);
     Task<List<BsonProduct>> GetAsync(string description);
     Task CreateAsync(BsonProduct newProduct);
     Task UpdateAsync(Guid id, BsonProduct updatedProduct);
