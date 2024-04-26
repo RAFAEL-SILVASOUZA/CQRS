@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<UserSecretsId>dotnet-Product.Worker-4d52472f-521c-499f-b064-f99d7bb78002</UserSecretsId>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<DockerfileContext>..\..</DockerfileContext>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="DotNetCore.CAP" Version="8.1.0" />
+		<PackageReference Include="DotNetCore.CAP.PostgreSql" Version="8.1.0" />
+		<PackageReference Include="DotNetCore.CAP.RabbitMQ" Version="8.1.0" />
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
+		<PackageReference Include="MongoDB.Driver" Version="2.25.0" />
+		<PackageReference Include="MongoDB.Driver.Core" Version="2.25.0" />
+
+		<PackageReference Include="Serilog" Version="3.1.1" />
+		<PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
+		<PackageReference Include="Serilog.Sinks.Console" Version="5.0.1" />
+		<PackageReference Include="Serilog.Sinks.Debug" Version="2.0.0" />
+		<PackageReference Include="Serilog.Sinks.Graylog" Version="3.1.1" />
+		<PackageReference Include="Serilog.Sinks.GraylogGelf" Version="1.0.6" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+	</ItemGroup>
+</Project>

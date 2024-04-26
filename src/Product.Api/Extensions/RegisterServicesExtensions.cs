@@ -17,9 +17,10 @@ public static class RegisterServicesExtensions
     {
         var assembly = typeof(ProductDbContext).Assembly;
         builder.RegisterCap();
+        builder.RegisterMediatR(assembly);
         builder.RegisterDbContext(assembly);
         builder.RegisterApiHandlers();
-        builder.RegisterMondoContext(assembly);
+        builder.RegisterMongoContext();
         builder.ConfigureSerilogLogger();
         builder.RegisterPipelineBehavior(assembly);
         return builder;
@@ -52,9 +53,12 @@ public static class RegisterServicesExtensions
     {
         builder.Services.AddScoped<ProductApiHandler>();
     }
-    private static void RegisterMondoContext(this WebApplicationBuilder builder, Assembly assembly)
+    private static void RegisterMongoContext(this WebApplicationBuilder builder)
     {
         builder.Services.AddScoped<IProductMongoContext, ProductMongoContext>();
+    }
+    private static void RegisterMediatR(this WebApplicationBuilder builder, Assembly assembly)
+    {
         builder.Services.AddMediatR(_ => _.RegisterServicesFromAssembly(assembly));
     }
     private static void ConfigureSerilogLogger(this WebApplicationBuilder builder)

@@ -1,6 +1,29 @@
 version: '3.7'
 
 services:
+
+  api:
+   container_name: productapi
+   build:
+     context: .
+     dockerfile: ./src/Product.Api/Dockerfile
+   expose:
+     - "8081"
+   ports:
+     - "5000:80"    
+   depends_on:
+     - postgres
+     - rabbitmq
+  
+  worker:
+   container_name: productworker
+   build:
+     context: .
+     dockerfile: ./src/Product.Worker/Dockerfile    
+   depends_on:
+     - mongo-readonly
+     - rabbitmq
+
   postgres:
     image: "postgres"
     container_name: postgres
