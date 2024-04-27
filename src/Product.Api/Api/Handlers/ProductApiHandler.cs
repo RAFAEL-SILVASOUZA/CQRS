@@ -52,19 +52,19 @@ public sealed class ProductApiHandler(IMediator mediat,
 
     public async Task<IResult> Get()
     {
-        var product = await mediat.Send(new ProductsQuery());
-        return Results.Ok(product);
+        var products = await mediat.Send(new ProductsQuery());
+        return products.Count() > 0 ? Results.Ok(products) : Results.NoContent();
     }
 
     public async Task<IResult> Get(Guid id)
     {
         var product = await mediat.Send(new ProductByIdQuery(id));
-        return Results.Ok(product);
+        return product is not null ? Results.Ok(product) : Results.NotFound();
     }
 
     public async Task<IResult> Get(string filter)
     {
         var products = await mediat.Send(new ProductsByDescriptionQuery(filter));
-        return Results.Ok(products);
+        return products.Count() > 0 ? Results.Ok(products) : Results.NotFound();
     }
 }

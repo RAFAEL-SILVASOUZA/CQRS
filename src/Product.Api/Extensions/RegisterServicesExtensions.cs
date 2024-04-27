@@ -31,7 +31,7 @@ public static class RegisterServicesExtensions
         builder.Services.AddCap(x =>
         {
             var configuration = builder.Configuration;
-            x.UsePostgreSql(configuration.GetConnectionString("ProductSqlConnection") ?? "");
+            x.UsePostgreSql(configuration.GetConnectionString("ProductSqlConnection") ?? "User ID=postgres;Password=postgres;Host=localhost;Port=5432;Database=product;Pooling=true;");
             x.UseRabbitMQ(o =>
             {
                 o.HostName = configuration["RabbitMQ:Host"] ?? "";

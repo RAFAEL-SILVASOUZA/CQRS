@@ -7,6 +7,13 @@ public class ProductMongoContext : IProductMongoContext
 {
     private readonly IMongoCollection<BsonProduct> _productsCollection;
 
+    public ProductMongoContext(string connectionString, string databaseName, string productCollectionName)
+    {
+        var mongoClient = new MongoClient(connectionString);
+        var mongoDatabase = mongoClient.GetDatabase(databaseName);
+        _productsCollection = mongoDatabase.GetCollection<BsonProduct>(productCollectionName);
+    }
+
     public ProductMongoContext(IConfiguration configuration)
     {
         var connectionString = configuration["Mongo:ConnectionString"];

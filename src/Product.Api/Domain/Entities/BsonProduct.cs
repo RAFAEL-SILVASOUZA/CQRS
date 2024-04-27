@@ -2,12 +2,22 @@
 
 namespace Product.Api.Domain.Entities;
 
-public class BsonProduct(string id, string description, double price)
+public class BsonProduct
 {
+    public BsonProduct(string id, string description, double price)
+    {
+        Id = id;
+        Description = description;
+        Price = price;
+    }
+
+    public BsonProduct Create(string id, string description, double price) 
+        => new BsonProduct(id, description, price);
+
     [BsonId]
-    public string Id { get; init; } = id;
-    public string Description { get; init; } = description;
-    public double Price { get; init; } = price;
+    public string Id { get; init; } 
+    public string Description { get; init; } 
+    public double Price { get; init; }
 }
 
 
